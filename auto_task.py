@@ -111,7 +111,7 @@ class BilibiliTask:
         """获取随机视频列表"""
         try:
             url = "https://api.bilibili.com/x/web-interface/index/top/feed/rcmd"
-            params = {'fresh_idx': random.randint(1, 999), 'ps': 20}
+            params = {'fresh_idx': random.randint(1, 999), 'ps': 8}
             res = requests.get(url, headers=self.headers, params=params)
             if res.status_code == 200:
                 return [item['bvid'] for item in res.json().get('data', {}).get('item', [])]

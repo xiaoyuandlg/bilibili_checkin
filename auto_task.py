@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 import requests
 import json
 import time
@@ -6,6 +7,13 @@ import sys
 from datetime import datetime, timedelta, timezone
 from loguru import logger
 import random
+
+# import os
+# import sys
+# import io
+
+# sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+# os.environ["PYTHONIOENCODING"] = "utf-8"
 
 # 配置日志
 class BeijingFormatter:
@@ -115,13 +123,13 @@ class BilibiliTask:
     def check_coin_status(self, bvid):
         """检查视频投币状态"""
         try:
-            url = f"https://api.bilibili.com/x/web-interface/coin/video/{bvid}"
+            url = f"https://api.bilibili.com/x/web-interface/archive/coins?bvid={bvid}"
             res = requests.get(url, headers=self.headers)
             if res.status_code == 200:
                 data = res.json().get('data', {})
                 return {
                     'can_coin': data.get('multiply', 0) < 2,  # 最多投2币
-                    'is_owner': data.get('is_owner', True)
+                    'is_owner': False
                 }
             return {'can_coin': False, 'is_owner': True}
         except Exception as e:
